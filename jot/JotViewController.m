@@ -39,6 +39,7 @@
         _textView = [JotTextView new];
         _drawingContainer = [JotDrawingContainer new];
         self.drawingContainer.delegate = self;
+        self.drawView.jotViewController = self;
         
         _font = self.textView.font;
         self.textEditView.font = self.font;
@@ -309,6 +310,11 @@
     
     return [self.textView drawTextOnImage:renderDrawingImage];
 }
+
+-(BOOL)hasDrawnTouchPath {
+    return self.drawView.hasDrawnTouchPath;
+}
+
 
 #pragma mark - Gestures
 

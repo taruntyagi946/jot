@@ -10,6 +10,7 @@
 #import "JotTouchPoint.h"
 #import "JotTouchBezier.h"
 #import "UIImage+Jot.h"
+#import "JotViewController.h"
 
 CGFloat const kJotVelocityFilterWeight = 0.9f;
 CGFloat const kJotInitialVelocity = 220.f;
@@ -80,6 +81,10 @@ CGFloat const kJotRelativeMinStrokeWidth = 0.4f;
 
 #pragma mark - Properties
 
+-(BOOL)hasDrawnTouchPath {
+    return ([self.pathsArray count] > 0);
+}
+
 - (void)setConstantStrokeWidth:(BOOL)constantStrokeWidth
 {
     if (_constantStrokeWidth != constantStrokeWidth) {
@@ -99,6 +104,10 @@ CGFloat const kJotRelativeMinStrokeWidth = 0.4f;
     self.pointsCounter = 0;
     [self.pointsArray removeAllObjects];
     [self.pointsArray addObject:[JotTouchPoint withPoint:touchPoint]];
+    
+    if ([_jotViewController.delegate respondsToSelector:@selector(jotViewControllerDidStartDrawing:)]) {
+        [_jotViewController.delegate jotViewControllerDidStartDrawing:_jotViewController];
+    }
 }
 
 - (void)drawTouchMovedToPoint:(CGPoint)touchPoint
@@ -150,6 +159,10 @@ CGFloat const kJotRelativeMinStrokeWidth = 0.4f;
     
     self.lastVelocity = self.initialVelocity;
     self.lastWidth = self.strokeWidth;
+    
+    if ([_jotViewController.delegate respondsToSelector:@selector(jotViewControllerDidEndDrawing:)]) {
+        [_jotViewController.delegate jotViewControllerDidEndDrawing:_jotViewController];
+    }
 }
 
 #pragma mark - Drawing
