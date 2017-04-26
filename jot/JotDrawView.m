@@ -82,7 +82,7 @@ CGFloat const kJotRelativeMinStrokeWidth = 0.4f;
 #pragma mark - Properties
 
 -(BOOL)hasDrawnTouchPath {
-    return ([self.pathsArray count] > 0);
+    return ([self.pointsArray count] > 0);
 }
 
 - (void)setConstantStrokeWidth:(BOOL)constantStrokeWidth
